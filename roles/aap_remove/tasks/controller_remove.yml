@@ -17,7 +17,7 @@
     - receptor.service
 
 - name: Remove software
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name:
       - postgresql
       - postgresql-server
