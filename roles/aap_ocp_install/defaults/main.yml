@@ -24,4 +24,11 @@
 # aap_ocp_install_hub:
 #   instance_name:
 #   link_text:
+
+# Variable applicable to the EDA installation
+# aap_ocp_install_eda:
+#   namespace:
+#   instance_name:
+#   replicas:
+#   link_text:
 ...
