@@ -1,7 +1,7 @@
 ---
 - name: Check Automation Controller Running
   ansible.builtin.uri:
-    url: "https://{{ controller_hostname }}/"
+    url: https://{{ controller_hostname }}/
     method: GET
     user: admin
     password: "{{ aap_setup_prep_inv_secrets.all.admin_password | default(aap_setup_prep_inv_vars.all.admin_password) }}"
@@ -16,7 +16,7 @@
 
 - name: Check Automation Hub Running
   ansible.builtin.uri:
-    url: "https://{{ ah_hostname }}/api/galaxy/"
+    url: https://{{ ah_hostname }}/api/galaxy/
     method: GET
     user: admin
     password: "{{ aap_setup_prep_inv_secrets.all.automationhub_admin_password | default(aap_setup_prep_inv_vars.all.automationhub_admin_password) }}"
@@ -31,10 +31,11 @@
 
 - name: Check EDA Controller Running
   ansible.builtin.uri:
-    url: "https://{{ eda_hostname }}/"
+    url: https://{{ eda_hostname }}/
     method: GET
     user: admin
-    password: "{{ aap_setup_prep_inv_secrets.all.automationedacontroller_admin_password | default(aap_setup_prep_inv_vars.all.automationedacontroller_admin_password) }}"
+    password: "{{ aap_setup_prep_inv_secrets.all.automationedacontroller_admin_password | default(aap_setup_prep_inv_vars.all.automationedacontroller_admin_password)
+      }}"
     validate_certs: "{{ eda_validate_certs | default('false') }}"
     force_basic_auth: true
   register: __aap_setup_inst_eda_check
@@ -58,7 +59,7 @@
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ aap_setup_inst_setup_dir }}"
-        mode: 0644
+        mode: "0644"
       loop: "{{ aap_setup_inst_extra_vars_files }}"
       register: __extra_vars_files
 
@@ -72,8 +73,8 @@
       # these will always run and will always report "changed" otherwise
 
     - name: Wait for automation controller to be running
-      ansible.builtin.uri:  # use the first host from the list if no hostname is defined
-        url: "https://{{ controller_hostname }}/"
+      ansible.builtin.uri: # use the first host from the list if no hostname is defined
+        url: https://{{ controller_hostname }}/
         method: GET
         user: admin
         password: "{{ aap_setup_prep_inv_secrets.all.admin_password | default(aap_setup_prep_inv_vars.all.admin_password) }}"
@@ -87,8 +88,8 @@
       when: "'automationcontroller' in aap_setup_prep_inv_nodes"
 
     - name: Wait for automation hub to be running
-      ansible.builtin.uri:  # use the first host from the list if no hostname is defined
-        url: "https://{{ ah_hostname }}/api/galaxy/"
+      ansible.builtin.uri: # use the first host from the list if no hostname is defined
+        url: https://{{ ah_hostname }}/api/galaxy/
         method: GET
         user: admin
         password: "{{ aap_setup_prep_inv_secrets.all.automationhub_admin_password | default(aap_setup_prep_inv_vars.all.automationhub_admin_password) }}"
@@ -102,11 +103,12 @@
       when: "'automationhub' in aap_setup_prep_inv_nodes"
 
     - name: Wait for EDA controller to be running
-      ansible.builtin.uri:  # use the first host from the list if no hostname is defined
-        url: "https://{{ eda_hostname }}/"
+      ansible.builtin.uri: # use the first host from the list if no hostname is defined
+        url: https://{{ eda_hostname }}/
         method: GET
         user: admin
-        password: "{{ aap_setup_prep_inv_secrets.all.automationedacontroller_admin_password | default(aap_setup_prep_inv_vars.all.automationedacontroller_admin_password) }}"
+        password: "{{ aap_setup_prep_inv_secrets.all.automationedacontroller_admin_password | default(aap_setup_prep_inv_vars.all.automationedacontroller_admin_password)
+          }}"
         validate_certs: "{{ eda_validate_certs | default('false') }}"
         force_basic_auth: true
       register: __aap_setup_inst_result_eda

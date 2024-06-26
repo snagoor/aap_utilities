@@ -20,7 +20,6 @@ galaxy_info:
     - ansible
 
 dependencies: []
-
 collections:
   - redhat.openshift
   - community.okd

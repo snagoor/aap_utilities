@@ -38,7 +38,8 @@
     - name: Update validation errors fact - namespace
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
-          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['namespace'] must be a lowercase RFC 1123 label consisting of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc'"] }}
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['namespace'] must be a lowercase RFC 1123 label consisting of lower case alphanumeric
+          characters or '-', and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc'"] }}
 
 - name: Ensure controller link text variable is set (block)
   when: aap_ocp_install_controller['link_text'] is defined
@@ -130,12 +131,14 @@
     - name: Ensure controller projects storage size is valid
       ansible.builtin.assert:
         that:
-          - (aap_ocp_install_controller['projects_storage_size'] | regex_replace('^(?P<size>[0-9]+)(?P<si>Ki|K|Mi|M|Gi|G|Ti|T|Pi|P|Ei|E)$', '\\g<size>') | int) > 0
+          - (aap_ocp_install_controller['projects_storage_size'] | regex_replace('^(?P<size>[0-9]+)(?P<si>Ki|K|Mi|M|Gi|G|Ti|T|Pi|P|Ei|E)$', '\\g<size>') | int) >
+            0
           - (aap_ocp_install_controller['projects_storage_size'] | regex_replace('^(?P<size>[0-9]+)(?P<si>Ki|K|Mi|M|Gi|G|Ti|T|Pi|P|Ei|E)$', '\\g<si>')) is in ['Ki','K','Mi','M','Gi','G','Ti','T','Pi','P','Ei','E']
         quiet: true
   rescue:
     - name: Update validation errors fact - projects_storage_size replicas
       ansible.builtin.set_fact:
         __aap_ocp_install_prevalidate_errors: >
-          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['projects_storage_size'] must be a number greater than 0 with a size (e.g. 12Gi or 10000M)"] }}
+          {{ __aap_ocp_install_prevalidate_errors + ["aap_ocp_install_controller['projects_storage_size'] must be a number greater than 0 with a size (e.g. 12Gi or
+          10000M)"] }}
 ...

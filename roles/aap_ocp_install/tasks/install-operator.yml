@@ -27,7 +27,7 @@
     api_version: operators.coreos.com/v1alpha1
     namespace: "{{ aap_ocp_install_namespace | mandatory }}"
   register: __aap_ocp_install_sub_result
-  until: "(__aap_ocp_install_sub_result['resources'][0]['status']['state'] is defined) and (__aap_ocp_install_sub_result['resources'][0]['status']['state'] == 'AtLatestKnown')"
+  until: (__aap_ocp_install_sub_result['resources'][0]['status']['state'] is defined) and (__aap_ocp_install_sub_result['resources'][0]['status']['state'] == 'AtLatestKnown')
   retries: 24
   delay: 10
 
